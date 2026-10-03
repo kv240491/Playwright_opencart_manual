@@ -3,7 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:master": "playwright test --grep @master",
+    "test:api": "playwright test --grep @api",
+    "test:web": "playwright test --grep @web",
+    "test:db": "playwright test --grep @db",
+    "test:datadriven": "playwright test --grep @Datadriven",
+    "test:master:headed": "playwright test --grep @master --headed",
+    "test:web:headed": "playwright test --grep @web --headed",
+    "test:db:headed": "playwright test --grep @db --headed",
+    "test:datadriven:headed": "playwright test --grep @Datadriven --headed"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

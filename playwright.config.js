@@ -47,7 +47,7 @@ export default defineConfig({
 
         video: 'retain-on-failure',
 
-        headless: false,
+        headless: true,
 
         viewport: {
             width: 1280,
@@ -60,7 +60,7 @@ export default defineConfig({
     },
 
     // Execute tests tagged with @master
-    grep: /@master/,
+    //grep: /@master/,
 
     // Browser configurations
     projects: [
