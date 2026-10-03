@@ -1,0 +1,50 @@
+# =============================================================================
+# Docker Compose — Playwright JavaScript Automation Framework
+# =============================================================================
+#
+# Build:
+#   docker compose build
+#
+# Run:
+#   docker compose run --rm playwright-tests
+#   docker compose run --rm playwright-tests master
+#   docker compose run --rm playwright-tests api
+#   docker compose run --rm playwright-tests web
+#   docker compose run --rm playwright-tests db
+#   docker compose run --rm playwright-tests datadriven
+#
+# Pass additional Playwright arguments:
+#   docker compose run --rm playwright-tests api --workers=1
+#
+# Note:
+#   Headed browser execution is not enabled here because a normal Docker
+#   container does not provide a desktop/display server by default.
+# =============================================================================
+
+services:
+  playwright-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: playwright-opencart
+    working_dir: /app
+
+    # Local Docker execution reads framework configuration/secrets from .env.
+    # Keep .env out of Git.
+    env_file:
+      - .env
+
+    environment:
+      CI: "1"
+
+    volumes:
+      # Persist generated reports/artifacts on the host.
+      - ./reports:/app/reports
+      - ./allure-results:/app/allure-results
+      - ./custom-report:/app/custom-report
+      - ./test-results:/app/test-results
+
+    # Default suite. Override with:
+    # docker compose run --rm playwright-tests api
+    command: ["all"]

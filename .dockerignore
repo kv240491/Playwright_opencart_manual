@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+
+# Environment & secrets
+.env
+.env.*
+
+# Keep the template available if you intentionally need it in the image.
+!.env.example
+
+# Test/report artifacts
+test-results
+reports
+allure-results
+allure-report
+custom-report
+playwright-report
+blob-report
+
+# Playwright / IDE caches
+.playwright/
+.playwright-cli/
+.playwright-mcp/
+.vscode/
+
+# Version control
+.git
+.gitignore
+
+# CI/CD metadata not required inside the runtime image
+.github/
+Jenkinsfile
+
+# OS/editor files
+.DS_Store
+Thumbs.db
