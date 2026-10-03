@@ -4,7 +4,7 @@ import { OpenCartTestData } from '../../testdata/openCartTestData.js'
 import { executeQuery } from '../../utils/dbClient.js';
 
 
-test('@master @db Verify new account in admin and DB', async ({ customerPages, adminApp }) => {
+test('@db Verify new account in admin and DB', async ({ customerPages, adminApp }) => {
 
     const userData = RandomDataUtil.createUser();
     let adminPages;
