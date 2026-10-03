@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures/pageFixtures.js'
 import { RandomDataUtil } from '../../utils/dataGenerator.js'
 import { OpenCartTestData } from '../../testdata/openCartTestData.js'
 
-test('@master register a new account', async ({ customerPages }) => {
+test('@master @web register a new account', async ({ customerPages }) => {
 
     const userData = RandomDataUtil.createUser();
 

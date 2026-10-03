@@ -14,7 +14,7 @@ const jsonData = DataProvider.readExcel(filePath);
 for (const data of jsonData) {
 
 
-    test(`@master @Datadriven ${data.TestName}`, async ({ customerPages }) => {
+    test(`@master @web @Datadriven ${data.TestName}`, async ({ customerPages }) => {
 
         await test.step('1. Navigate to the app URL', async () => {
             await customerPages.homePage.navigateTo(OpenCartTestData.appURL);

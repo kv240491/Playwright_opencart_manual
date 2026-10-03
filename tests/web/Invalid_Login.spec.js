@@ -1,7 +1,7 @@
 import { test, expect } from '../../fixtures/pageFixtures.js'
 import { OpenCartTestData } from '../../testdata/openCartTestData.js'
 
-test('@master 3. Invalid Login Flow', async ({ customerPages }) => {
+test('@master @web 3. Invalid Login Flow', async ({ customerPages }) => {
 
     await test.step('1. Navigate to the app URL', async () => {
         await customerPages.homePage.navigateTo(OpenCartTestData.appURL);

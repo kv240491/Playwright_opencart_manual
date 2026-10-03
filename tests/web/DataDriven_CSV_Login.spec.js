@@ -15,7 +15,7 @@ console.log(csvData);
 for (const data of csvData) {
 
 
-    test(`@master @Datadriven ${data.testName}`, async ({ customerPages }) => {
+    test(`@master @web @Datadriven ${data.testName}`, async ({ customerPages }) => {
 
         await test.step('1. Navigate to the app URL', async () => {
             await customerPages.homePage.navigateTo(OpenCartTestData.appURL);

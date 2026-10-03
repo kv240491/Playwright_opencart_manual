@@ -13,7 +13,7 @@ const jsonData = DataProvider.readJson(filePath);
 
 for (const data of jsonData) {
 
-    test(`@master @Datadriven Data driven login flow for ${data.testName}`, async ({ customerPages }) => {
+    test(`@master @web @Datadriven Data driven login flow for ${data.testName}`, async ({ customerPages }) => {
 
         await test.step('1. Navigate to the app URL', async () => {
             await customerPages.homePage.navigateTo(OpenCartTestData.appURL);
