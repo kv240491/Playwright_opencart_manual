@@ -1,0 +1,10 @@
+[
+  {
+    customer_id: 17,
+    firstname: 'Queen',
+    lastname: 'Dare',
+    email: 'Queen_Dare33@yahoo.com',
+    status: 1,
+    date_added: 2026-10-02T07:07:37.000Z
+  }
+]

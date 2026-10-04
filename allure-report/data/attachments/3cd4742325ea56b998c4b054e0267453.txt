@@ -1,0 +1,5 @@
+URL: https://fakestoreapi.com/auth/login
+Username: appvance
+Password: kfejk@*_
+Status: 401
+Response: username or password is incorrect

@@ -1,6 +1,6 @@
 # To run manually:
-# Go to your repository → Actions → Playwright Tests → Run workflow
-# Choose the test suite, browser, and mode → Run workflow
+# Repository → Actions → Playwright Tests → Run workflow
+# Select test suite, browser, mode and worker count.
 
 name: Playwright Tests
 
@@ -15,6 +15,7 @@ on:
 
   workflow_dispatch:
     inputs:
+
       test_suite:
         description: "Select test suite"
         required: true
@@ -46,90 +47,225 @@ on:
           - headed
         default: "headless"
 
+      workers:
+        description: "Number of parallel Azure workers"
+        required: true
+        type: choice
+        options:
+          - "1"
+          - "4"
+          - "10"
+          - "20"
+        default: "4"
+
+
 jobs:
+
   test:
+
     timeout-minutes: 60
+
     runs-on: windows-latest
 
     steps:
+
+      # -------------------------------------------------------
       # Step 1: Checkout repository
+      # -------------------------------------------------------
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+
+      # -------------------------------------------------------
       # Step 2: Set up Node.js
+      # -------------------------------------------------------
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
+          cache: "npm"
 
+
+      # -------------------------------------------------------
       # Step 3: Install project dependencies
+      # -------------------------------------------------------
+
       - name: Install Dependencies
         run: npm ci
 
-      # Step 4: Install Playwright browsers
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
 
-      # Step 5: Create .env file
+      # -------------------------------------------------------
+      # Step 4: Azure Login
+      #
+      # AZURE_CREDENTIALS contains the JSON generated from
+      # the Azure Service Principal.
+      # -------------------------------------------------------
+
+      - name: Azure Login
+        uses: azure/login@v3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+
+      # -------------------------------------------------------
+      # Step 5: Create environment file
+      # -------------------------------------------------------
+
       - name: Create .env File
         shell: powershell
-        run: Copy-Item .env.example .env
-
-      # Step 6: Run Playwright tests
-      - name: Run Playwright Tests
-        shell: powershell
         run: |
+          Copy-Item .env.example .env
+
+
+      # -------------------------------------------------------
+      # Step 6: Run Playwright tests using Azure
+      # Playwright Workspaces
+      # -------------------------------------------------------
+
+      - name: Run Playwright Tests
+        env:
+
+          # Azure Playwright Workspace endpoint
+          PLAYWRIGHT_SERVICE_URL: ${{ secrets.PLAYWRIGHT_SERVICE_URL }}
+
+          # Enables CI-specific framework settings
+          CI: "1"
+
+        shell: powershell
+
+        run: |
+
           $suite = "${{ inputs.test_suite || 'master' }}"
           $browser = "${{ inputs.browser || 'chromium' }}"
           $mode = "${{ inputs.mode || 'headless' }}"
+          $workers = "${{ inputs.workers || '4' }}"
 
-          # Convert selected suite to the actual Playwright tag
+
+          # ---------------------------------------------
+          # Convert suite selection to Playwright tag
+          # ---------------------------------------------
+
           if ($suite -eq "datadriven") {
+
               $tag = "@Datadriven"
+
           } else {
+
               $tag = "@$suite"
+
           }
+
+
+          # ---------------------------------------------
+          # Browser
+          # ---------------------------------------------
 
           $browserFlag = "--project=$browser"
 
+
+          # ---------------------------------------------
+          # Headless / Headed
+          # ---------------------------------------------
+
           if ($mode -eq "headed") {
+
               $modeFlag = "--headed"
+
           } else {
+
               $modeFlag = ""
+
           }
 
-          Write-Host "Running Test Suite: $suite"
-          Write-Host "Playwright Tag: $tag"
-          Write-Host "Browser: $browser"
-          Write-Host "Mode: $mode"
 
-          npx playwright test --grep $tag $browserFlag $modeFlag --output=test-results
-        env:
-          CI: "1"
+          # ---------------------------------------------
+          # Execution information
+          # ---------------------------------------------
 
-      # Step 7: Upload Playwright report
-      - name: Upload Playwright HTML Report
+          Write-Host "======================================"
+          Write-Host "Azure Playwright Workspaces Execution"
+          Write-Host "======================================"
+
+          Write-Host "Test Suite : $suite"
+          Write-Host "Tag        : $tag"
+          Write-Host "Browser    : $browser"
+          Write-Host "Mode       : $mode"
+          Write-Host "Workers    : $workers"
+
+          Write-Host "======================================"
+
+
+          # ---------------------------------------------
+          # Run tests on Azure Playwright Workspaces
+          # ---------------------------------------------
+
+          npx playwright test `
+            --grep "$tag" `
+            --config=playwright.service.config.js `
+            $browserFlag `
+            $modeFlag `
+            --workers=$workers `
+            --output=test-results
+
+
+      # -------------------------------------------------------
+      # Step 7: Upload Playwright HTML/JUnit reports
+      # -------------------------------------------------------
+
+      - name: Upload Playwright Reports
         if: always()
         uses: actions/upload-artifact@v4
+
         with:
-          name: playwright-report
+          name: playwright-reports
           path: reports/
           retention-days: 30
+          if-no-files-found: warn
 
-      # Step 8: Upload custom report
+
+      # -------------------------------------------------------
+      # Step 8: Upload Custom Report
+      # -------------------------------------------------------
+
       - name: Upload Custom Report
         if: always()
         uses: actions/upload-artifact@v4
+
         with:
           name: custom-report
           path: custom-report/
           retention-days: 30
+          if-no-files-found: warn
 
-      # Step 9: Upload Allure results
+
+      # -------------------------------------------------------
+      # Step 9: Upload Allure Results
+      # -------------------------------------------------------
+
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
+
         with:
           name: allure-results
           path: allure-results/
           retention-days: 30
+          if-no-files-found: warn
+
+
+      # -------------------------------------------------------
+      # Step 10: Upload Playwright test artifacts
+      # screenshots / videos / traces
+      # -------------------------------------------------------
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 30
+          if-no-files-found: ignore

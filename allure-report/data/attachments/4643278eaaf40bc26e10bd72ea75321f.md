@@ -1,0 +1,75 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: web/DataDriven_Excel_Login.spec.js >> @master @web @Datadriven Valid login
+- Location: tests/web/DataDriven_Excel_Login.spec.js:17:9
+
+# Error details
+
+```
+Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost/opencart/upload/
+Call log:
+  - navigating to "http://localhost/opencart/upload/", waiting until "load"
+
+```
+
+# Test source
+
+```ts
+  1  | export class HomePage {
+  2  | 
+  3  |    constructor (page){
+  4  |     this.page = page;
+  5  |     this.linkMyAccountMenu = page.getByRole("Link",{name:"My Account"}).first();
+  6  |     this.linkRegister = page.getByRole("Link",{name:"Register"}).first();
+  7  |     this.linkMyAccount = page.getByRole("Link",{name:"My Account"}).nth(1);
+  8  |     this.linkLogin = page.getByRole("Link",{name:"Login"}).first();
+  9  |     this.linkLogout = page.getByRole("Link",{name:"Logout"}).first();
+  10 |     this.product = page.locator('div.product-layout').first();
+  11 |     this.txtMainSearch = page.getByPlaceholder("Search")
+  12 |     this.btnMainSearch = page.locator('div#search button');
+  13 |     this.linkShoppingcart = page.getByTitle("Shopping Cart");
+  14 |     }
+  15 | 
+  16 |     async navigateToSubLinkFromMenu(Menu, Sublink){
+  17 |         await Menu.click();
+  18 |         await Sublink.click();
+  19 |     }
+  20 | 
+  21 |     async navigateToRegister(){
+  22 |         await this.navigateToSubLinkFromMenu(this.linkMyAccountMenu,this.linkRegister);
+  23 |     }
+  24 | 
+  25 |     async navigateToMyAccount(){
+  26 |        await this.navigateToSubLinkFromMenu(this.linkMyAccountMenu,this.linkMyAccount);
+  27 |     }
+  28 | 
+  29 |     async navigateTo(url){
+> 30 |         await this.page.goto(url);
+     |                         ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost/opencart/upload/
+  31 |     }
+  32 | 
+  33 |      async navigateToLoginPage(){
+  34 |        await this.navigateToSubLinkFromMenu(this.linkMyAccountMenu,this.linkLogin);
+  35 |     }
+  36 | 
+  37 |      async logoutFromApp(){
+  38 |        await this.navigateToSubLinkFromMenu(this.linkMyAccountMenu,this.linkLogout);
+  39 |     }
+  40 | 
+  41 |     async searchProduct (product){
+  42 |         await this.txtMainSearch.fill(product);
+  43 |         await this.btnMainSearch.click();
+  44 |     }
+  45 | 
+  46 |     async navigateToShoppingCart(){
+  47 |         await this.linkShoppingcart.click();
+  48 |     }
+  49 | 
+  50 | }
+```

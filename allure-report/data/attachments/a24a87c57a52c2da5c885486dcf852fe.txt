@@ -1,0 +1,10 @@
+[
+  {
+    customer_id: 15,
+    firstname: 'Rosalinda',
+    lastname: 'Weissnat',
+    email: 'Rosalinda_Weissnat@gmail.com',
+    status: 1,
+    date_added: 2026-10-02T07:03:06.000Z
+  }
+]

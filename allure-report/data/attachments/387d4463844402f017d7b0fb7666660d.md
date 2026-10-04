@@ -1,0 +1,52 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: api/ProductCategory.spec.js >> @master @api TC04 — Get Products by Category
+- Location: tests/api/ProductCategory.spec.js:5:5
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 200
+Received: 522
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test'
+  2  | import { Routes } from '../../api/endpoints/routes.js'
+  3  | import { APITestdata } from '../../testdata/fakerStoreApiTestData.js'
+  4  | 
+  5  | test('@master @api TC04 — Get Products by Category', async ({ request }) => {
+  6  |     const URL = `${APITestdata.BASE_URL}${Routes.GET_ALL_CATEGORIES}`;
+  7  |     const category = 'electronics';
+  8  |     const res = await request.get(URL);
+> 9  |     expect(res.status()).toBe(200);
+     |                          ^ Error: expect(received).toBe(expected) // Object.is equality
+  10 |     const resbody = await res.json();
+  11 |     expect(Array.isArray(resbody)).toBeTruthy();
+  12 |     expect(resbody.length).toBeGreaterThan(0);
+  13 |     expect(resbody).toContain(category);
+  14 | 
+  15 |     const catURL = `${APITestdata.BASE_URL}${Routes.GET_PRODUCTS_BY_CATEGORY.replace('{category}', category)}`;
+  16 |     const catRes = await request.get(catURL);
+  17 |     expect(catRes.status()).toBe(200);
+  18 |     const catResbody = await catRes.json();
+  19 |     expect(Array.isArray(catResbody)).toBeTruthy();
+  20 |     expect(catResbody.length).toBeGreaterThan(0);
+  21 | 
+  22 |     for (const prod of catResbody) {
+  23 |         expect(prod.category).toEqual(category);
+  24 |     }
+  25 | 
+  26 | 
+  27 | })
+```

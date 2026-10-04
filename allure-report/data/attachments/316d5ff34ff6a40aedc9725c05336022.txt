@@ -1,0 +1,114 @@
+[
+  {
+    customer_id: 1,
+    firstname: 'Karthik',
+    lastname: 'K',
+    email: 'kkarthik@test.com',
+    status: 1,
+    date_added: 2026-10-01T13:58:42.000Z
+  },
+  {
+    customer_id: 2,
+    firstname: 'Geraldine',
+    lastname: 'Leffler',
+    email: 'Geraldine_Leffler@hotmail.com',
+    status: 1,
+    date_added: 2026-10-02T05:24:41.000Z
+  },
+  {
+    customer_id: 3,
+    firstname: 'Blair',
+    lastname: 'DuBuque',
+    email: 'Blair.DuBuque1@hotmail.com',
+    status: 1,
+    date_added: 2026-10-02T05:26:48.000Z
+  },
+  {
+    customer_id: 4,
+    firstname: 'Rosemary',
+    lastname: 'Orn',
+    email: 'Rosemary.Orn40@gmail.com',
+    status: 1,
+    date_added: 2026-10-02T05:30:26.000Z
+  },
+  {
+    customer_id: 5,
+    firstname: 'Garrison',
+    lastname: 'Okuneva',
+    email: 'Garrison_Okuneva90@hotmail.com',
+    status: 1,
+    date_added: 2026-10-02T05:31:13.000Z
+  },
+  {
+    customer_id: 6,
+    firstname: 'Izaiah',
+    lastname: 'Adams',
+    email: 'Izaiah.Adams54@hotmail.com',
+    status: 1,
+    date_added: 2026-10-02T05:32:56.000Z
+  },
+  {
+    customer_id: 7,
+    firstname: 'Madelyn',
+    lastname: 'Brekke',
+    email: 'Madelyn_Brekke58@gmail.com',
+    status: 1,
+    date_added: 2026-10-02T05:33:54.000Z
+  },
+  {
+    customer_id: 8,
+    firstname: 'Lyle',
+    lastname: 'Stark',
+    email: 'Lyle_Stark@yahoo.com',
+    status: 1,
+    date_added: 2026-10-02T05:35:13.000Z
+  },
+  {
+    customer_id: 9,
+    firstname: 'Nils',
+    lastname: 'Hahn',
+    email: 'Nils_Hahn76@hotmail.com',
+    status: 1,
+    date_added: 2026-10-02T05:36:33.000Z
+  },
+  {
+    customer_id: 10,
+    firstname: 'Abe',
+    lastname: 'Morar',
+    email: 'Abe.Morar14@yahoo.com',
+    status: 1,
+    date_added: 2026-10-02T05:52:24.000Z
+  },
+  {
+    customer_id: 11,
+    firstname: 'Jaylan',
+    lastname: 'Nitzsche',
+    email: 'Jaylan_Nitzsche@yahoo.com',
+    status: 1,
+    date_added: 2026-10-02T06:13:29.000Z
+  },
+  {
+    customer_id: 12,
+    firstname: 'Magdalena',
+    lastname: 'Mayer-Larson',
+    email: 'Magdalena_Mayer-Larson17@hotmail.com',
+    status: 1,
+    date_added: 2026-10-02T06:44:55.000Z
+  },
+  {
+    customer_id: 13,
+    firstname: 'Elyssa',
+    lastname: 'DuBuque',
+    email: 'Elyssa.DuBuque@gmail.com',
+    status: 1,
+    date_added: 2026-10-02T07:01:27.000Z
+  },
+  {
+    customer_id: 14,
+    firstname: 'Edmond',
+    lastname: 'Boehm',
+    email: 'Edmond_Boehm@hotmail.com',
+    status: 1,
+    date_added: 2026-10-02T07:02:15.000Z
+  }
+]
